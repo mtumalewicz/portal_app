@@ -21,6 +21,7 @@ defmodule Portal do
   @doc """
   Pushes data to the right in the given `portal`.
   """
+  @deprecated "Use push/2 instead"
   def push_right(portal) do
     # See if we can pop data from left. If so, push the
     # popped data to the right. Otherwise, do nothing.
@@ -33,9 +34,10 @@ defmodule Portal do
     portal
   end
 
-    @doc """
+  @doc """
   Pushes data to the left in the given `portal`.
   """
+  @deprecated "Use push/2 instead"
   def push_left(portal) do
     # See if we can pop data from right. If so, push the
     # popped data to the left. Otherwise, do nothing.
@@ -47,6 +49,29 @@ defmodule Portal do
     # Let's return the portal itself
     portal
   end
+  @doc """
+  Pushes data to the specified `direction` in the given `portal`.
+  """
+  def push(portal, direction) do
+    # Define which portal provides data and which takes.
+    {from, to} = case direction do
+      :right ->
+        {portal.left, portal.right}
+      :left ->
+        {portal.right, portal.left}
+    end
+
+    # See if we can pop data from right. If so, push the
+    # popped data to the left. Otherwise, do nothing.
+    case Portal.Door.pop(from) do
+      :error -> :ok
+      {:ok, h} -> Portal.Door.push(to, h)
+    end
+
+    # Let's return the portal itself
+    portal
+  end
+
   @doc """
   Shoots a new door with the given `color`.
   """
