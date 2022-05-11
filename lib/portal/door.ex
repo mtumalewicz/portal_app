@@ -37,4 +37,8 @@ defmodule Portal.Door do
       [h | t] -> {{:ok, h}, t}
     end)
   end
+
+  def clear_state(door) do
+    Agent.update(door, fn _ -> [] end)
+  end
 end

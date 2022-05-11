@@ -19,6 +19,23 @@ defmodule Portal do
   end
 
   @doc """
+  Sets left_data on left portal and right_data on right portal.
+  """
+  def transfer(left, right, left_data, right_data) do
+    # First add all data to the portal on the left
+    for item <- left_data do
+      Portal.Door.push(left, item)
+    end
+
+    # And on the right
+    for item <- right_data do
+      Portal.Door.push(right, item)
+    end
+    # Returns a portal struct we will use next
+    %Portal{left: left, right: right}
+  end
+
+  @doc """
   Pushes data to the specified `direction` in the given `portal`.
   """
   def push(portal, direction) do
