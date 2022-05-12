@@ -12,6 +12,7 @@ defmodule PortalSpec do
       example "push left <- while right portal is empty" do
         Portal.transfer(:blue, :orange, [], []) |>
           Portal.push(:left)
+
         expect(Portal.Door.get(:blue)) |> to(eq([]))
         expect(Portal.Door.get(:orange)) |> to(eq([]))
       end
@@ -19,6 +20,7 @@ defmodule PortalSpec do
       example "push right -> while left portal is empty" do
         Portal.transfer(:blue, :orange, [], []) |>
           Portal.push(:right)
+
         expect(Portal.Door.get(:blue)) |> to(eq([]))
         expect(Portal.Door.get(:orange)) |> to(eq([]))
       end
@@ -28,6 +30,7 @@ defmodule PortalSpec do
       example "push left <- while right portal has data" do
         Portal.transfer(:blue, :orange, [], [1, 2, 3]) |>
           Portal.push(:left)
+
         expect(Portal.Door.get(:blue)) |> to(eq([3]))
         expect(Portal.Door.get(:orange)) |> to(eq([2, 1]))
       end
@@ -35,6 +38,7 @@ defmodule PortalSpec do
       example "push right -> while left portal has data" do
         Portal.transfer(:blue, :orange, [1, 2, 3], []) |>
           Portal.push(:right)
+
         expect(Portal.Door.get(:blue)) |> to(eq([2, 1]))
         expect(Portal.Door.get(:orange)) |> to(eq([3]))
       end

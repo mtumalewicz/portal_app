@@ -31,6 +31,7 @@ defmodule Portal do
     for item <- right_data do
       Portal.Door.push(right, item)
     end
+
     # Returns a portal struct we will use next
     %Portal{left: left, right: right}
   end
@@ -40,12 +41,14 @@ defmodule Portal do
   """
   def push(portal, direction) do
     # Define which portal provides data and which takes.
-    {from, to} = case direction do
-      :right ->
-        {portal.left, portal.right}
-      :left ->
-        {portal.right, portal.left}
-    end
+    {from, to} =
+      case direction do
+        :right ->
+          {portal.left, portal.right}
+
+        :left ->
+          {portal.right, portal.left}
+      end
 
     # See if we can pop data from right. If so, push the
     # popped data to the left. Otherwise, do nothing.
