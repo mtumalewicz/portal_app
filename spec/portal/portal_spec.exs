@@ -54,4 +54,19 @@ defmodule PortalSpec do
     end
   end
 
+  describe "open/2" do
+    it "opens a portal with named doors" do
+      portal = Portal.open(:kitchen, :bedroom)
+
+      {:registered_name, in_name} =
+        Process.info(portal.left, :registered_name)
+
+      {:registered_name, out_name} =
+        Process.info(portal.right, :registered_name)
+
+      expect(in_name) |> to(eq(:kitchen))
+      expect(out_name) |> to(eq(:bedroom))
+    end
+  end
+
 end
