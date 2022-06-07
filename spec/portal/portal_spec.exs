@@ -69,4 +69,22 @@ defmodule PortalSpec do
     end
   end
 
+  describe "push/2" do
+    it "pushes value through the portal" do
+      portal = Portal.open()
+      |> Portal.push(1)
+      |> Portal.push(2)
+
+      expect(Portal.Door.get(portal.left)) |> to(eq([]))
+      expect(Portal.Door.get(portal.right)) |> to(eq([2, 1]))
+    end
+
+    context "when another portal has input connected to the output" do
+      it "pushes value through that portal too"
+    end
+
+    context "when multiple portals have input connected to the output" do
+      it "pushes value through all portals, duplicating it"
+    end
+  end
 end

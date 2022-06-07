@@ -56,6 +56,22 @@ defmodule Portal do
       :error -> :ok
       {:ok, h} -> Portal.Door.push(to, h)
     end
+  end
+
+  @doc """
+  Pushes given data from left to right. If data is a direction then already
+  exisiting data on portal is used.
+  """
+  def push(portal, data) do
+    {from, to} = {portal.left, portal.right}
+
+    # Push and pop are used to simulate data "travel" through portals.
+    Portal.Door.push(from, data)
+
+    case Portal.Door.pop(from) do
+      :error -> :ok
+      {:ok, h} -> Portal.Door.push(to, h)
+    end
 
     # Let's return the portal itself
     portal
