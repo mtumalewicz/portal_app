@@ -67,6 +67,16 @@ defmodule Portal do
   def shoot(color) do
     DynamicSupervisor.start_child(Portal.DoorSupervisor, {Portal.Door, color})
   end
+
+  @doc """
+  Shoots pair of doors with dynamic names.
+  """
+  def open() do
+    {_, left} = DynamicSupervisor.start_child(Portal.DoorSupervisor, {Portal.Door, nil})
+    {_, right} = DynamicSupervisor.start_child(Portal.DoorSupervisor, {Portal.Door, nil})
+
+    %Portal{left: left, right: right}
+  end
 end
 
 defimpl Inspect, for: Portal do

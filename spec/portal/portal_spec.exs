@@ -43,6 +43,15 @@ defmodule PortalSpec do
         expect(Portal.Door.get(:orange)) |> to(eq([3]))
       end
     end
-
   end
+
+  describe "open/0" do
+    it "opens a portal with dynamic doors" do
+      portal = Portal.open()
+
+      expect(portal.left)  |> to(be_pid())
+      expect(portal.right) |> to(be_pid())
+    end
+  end
+
 end
