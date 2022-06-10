@@ -36,22 +36,18 @@ defmodule Portal do
     %Portal{left: left, right: right}
   end
 
-  @doc """
-  Pushes data to the specified `direction` in the given `portal`.
-  """
-  def push(portal, direction) do
-    # Define which portal provides data and which takes.
-    {from, to} =
-      case direction do
-        :right ->
-          {portal.left, portal.right}
+  def push(portal, :right) do
+    {from, to} = {portal.left, portal.right}
 
-        :left ->
-          {portal.right, portal.left}
-      end
+    case Portal.Door.pop(from) do
+      :error -> :ok
+      {:ok, h} -> Portal.Door.push(to, h)
+    end
+  end
 
-    # See if we can pop data from right. If so, push the
-    # popped data to the left. Otherwise, do nothing.
+  def push(portal, :left) do
+    {from, to} = {portal.right, portal.left}
+
     case Portal.Door.pop(from) do
       :error -> :ok
       {:ok, h} -> Portal.Door.push(to, h)
