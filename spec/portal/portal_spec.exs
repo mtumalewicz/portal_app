@@ -69,6 +69,16 @@ defmodule PortalSpec do
     end
   end
 
+  describe "close/1" do
+    xit "closes a given portal" do
+      portal = Portal.open(:a, :b)
+      portal |> Portal.close()
+
+      expect(portal.left) |> to(eq(:nil))
+      expect(portal.left) |> to(eq(:nil))
+    end
+  end
+
   describe "push/2" do
     it "pushes value through the portal" do
       portal = Portal.open()

@@ -103,6 +103,14 @@ defmodule Portal do
 
     %Portal{left: left, right: right}
   end
+
+  @doc """
+  Close pair of doors. Data stored will be lost.
+  """
+  def close(portal) do
+    DynamicSupervisor.terminate_child(Portal.DoorSupervisor, portal.left)
+    DynamicSupervisor.terminate_child(Portal.DoorSupervisor, portal.right)
+  end
 end
 
 defimpl Inspect, for: Portal do
