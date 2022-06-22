@@ -90,7 +90,18 @@ defmodule PortalSpec do
     end
 
     context "when another portal has input connected to the output" do
-      it "pushes value through that portal too"
+      it "pushes value through that portal too" do
+        portal1 = Portal.open(:kitchen, :bedroom)
+        portal2 = Portal.open(:bedroom, :outside)
+
+        portal1
+        |> Portal.push(1)
+        |> Portal.push(2)
+
+        expect(Portal.Door.get(:kitchen)) |> to(eq([]))
+        expect(Portal.Door.get(:bedroom)) |> to(eq([]))
+        expect(Portal.Door.get(:outside)) |> to(eq([2, 1]))
+      end
     end
 
     context "when multiple portals have input connected to the output" do
