@@ -8,7 +8,10 @@ defmodule Portal.Door do
   the door by color name instead of using a PID.
   """
   def start_link(color) do
-    Agent.start_link(fn -> [] end, name: color)
+    case Agent.start_link(fn -> [] end, name: color) do
+      {:ok, pid} -> {:ok, pid}
+      {:error, {:already_started, pid}} -> {:ok, pid}
+    end
   end
 
   @doc """
