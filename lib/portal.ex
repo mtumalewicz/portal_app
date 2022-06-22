@@ -3,6 +3,8 @@ defmodule Portal do
   Documentation for `Portal`.
   """
 
+  use Agent
+
   defstruct [:left, :right]
 
   @doc """
@@ -97,7 +99,9 @@ defmodule Portal do
     {_, left} = DynamicSupervisor.start_child(Portal.DoorSupervisor, {Portal.Door, left_name})
     {_, right} = DynamicSupervisor.start_child(Portal.DoorSupervisor, {Portal.Door, right_name})
 
-    %Portal{left: left, right: right}
+    portal = %Portal{left: left, right: right}
+    Task.start_link(__MODULE__, :listen, [portal])
+    portal
   end
 
   @doc """
@@ -106,6 +110,12 @@ defmodule Portal do
   def close(portal) do
     DynamicSupervisor.terminate_child(Portal.DoorSupervisor, portal.left)
     DynamicSupervisor.terminate_child(Portal.DoorSupervisor, portal.right)
+  end
+
+  def listen(portal) do
+    portal
+    |> push(:right)
+    listen(portal)
   end
 end
 
