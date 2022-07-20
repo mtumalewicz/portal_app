@@ -24,3 +24,6 @@ portal-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# Ignore logs directory
+/log/

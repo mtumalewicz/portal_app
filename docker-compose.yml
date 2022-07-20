@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    volumes:
+      - rabbit_data:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_NODENAME=portal@rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+
+volumes:
+  rabbit_data:

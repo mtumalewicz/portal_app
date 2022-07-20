@@ -23,7 +23,8 @@ defmodule Portal.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:espec, "~> 1.8.3", only: :test}
+      {:espec, "~> 1.8.3", only: :test},
+      {:amqp, "~> 1.0"}
     ]
   end
 end

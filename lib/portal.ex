@@ -3,7 +3,7 @@ defmodule Portal do
   Documentation for `Portal`.
   """
 
-  defstruct [:left, :right]
+  defstruct [:left, :right, :opts]
 
   @doc """
   Starts transfering `data` from `left` to `right`.
@@ -88,6 +88,21 @@ defmodule Portal do
     {_, right} = DynamicSupervisor.start_child(Portal.DoorSupervisor, {Portal.Door, nil})
 
     %Portal{left: left, right: right}
+  end
+
+  @doc """
+  Shoots pair of doors with dynamic names linked via rabbitmq channel.
+  """
+  def amqpOpen() do
+    portal = open()
+
+    {:ok, connection} = AMQP.Connection.open(Application.get_env(Portal, :amqp))
+    {:ok, channel} = AMQP.Channel.open(connection)
+    AMQP.Queue.declare(channel, [:auto_delete])
+
+    opts = %{connection: connection, channel: channel}
+
+    portal |> Map.put(:opts, opts)
   end
 
   @doc """
