@@ -91,21 +91,6 @@ defmodule Portal do
   end
 
   @doc """
-  Shoots pair of doors with dynamic names linked via rabbitmq channel.
-  """
-  def amqpOpen() do
-    portal = open()
-
-    {:ok, connection} = AMQP.Connection.open(Application.get_env(Portal, :amqp))
-    {:ok, channel} = AMQP.Channel.open(connection)
-    AMQP.Queue.declare(channel, [:auto_delete])
-
-    opts = %{connection: connection, channel: channel}
-
-    portal |> Map.put(:opts, opts)
-  end
-
-  @doc """
   Shoots pair of doors with given names.
   """
   def open(left_name, right_name) do

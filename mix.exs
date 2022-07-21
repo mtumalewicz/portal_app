@@ -24,7 +24,7 @@ defmodule Portal.MixProject do
   defp deps do
     [
       {:espec, "~> 1.8.3", only: :test},
-      {:amqp, "~> 1.0"}
+      {:lapin, "~> 1.0.4"}
     ]
   end
 end

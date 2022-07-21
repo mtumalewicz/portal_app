@@ -8,7 +8,8 @@ defmodule Portal.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      {DynamicSupervisor, strategy: :one_for_one, name: Portal.DoorSupervisor}
+      {DynamicSupervisor, strategy: :one_for_one, name: Portal.DoorSupervisor},
+      Lapin.Supervisor
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one, name: Portal.Supervisor)
