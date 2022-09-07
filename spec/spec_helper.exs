@@ -1,7 +1,7 @@
 ESpec.configure fn(config) ->
   config.before fn(_tags) ->
-    Portal.shoot(:blue)
-    Portal.shoot(:orange)
+    Place.start_link(nil)
+    Portal.start_link(nil)
     :ok
   end
 
